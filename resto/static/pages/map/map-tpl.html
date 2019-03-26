@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-md-3">
+    <div class="card" style="height: 100%;">
+      <div class="card-header ">
+        <div class="input-group no-border">
+          <input type="text" value="" class="form-control" placeholder="Search..." ng-model="map.searchText">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <i class="now-ui-icons ui-1_zoom-bold"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body ">
+        <div class="list-group" style="overflow-y: auto;max-height: 500px;">
+          <div ng-repeat="detail in map.restaurantDetail | filter: map.searchText" ng-click="map.postCount(detail)">
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1" ng-bind="detail.name"></h5>
+                <small><span style="font-size: small;" class="badge badge-primary badge-pill" ng-bind="detail.click_count"></span></small>
+              </div>
+              <div class="row">
+                <p class="col-md-6" ng-bind="detail.cuisine"></p>
+                <div class="image col-md-6" style="height: 100px;width: 100px;">
+                  <img src="{{detail.img}}">
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="card" style="height: 100%;">
+      <div class="card-header ">
+        Google Maps
+      </div>
+      <div class="card-body ">
+        <div id="map" class="map"></div>
+      </div>
+    </div>
+  </div>
+</div>
