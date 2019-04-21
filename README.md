@@ -10,7 +10,6 @@ Built using Flask, AngularJS and Google Maps Platform
 
 - [Python3.6+](https://www.python.org/downloads/)
 - [Flask](http://flask.pocoo.org/)
-- Python Pip _comes with python_
 - [Python virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/)
 - [AngularJS](https://angularjs.org/)
 - [gulp-js](https://gulpjs.com/)
