@@ -10,10 +10,18 @@
             </div>
           </div>
         </div>
+        <select name="foodtype" class="form-control" ng-model="map.cebuResto.keyword" ng-change="map.changeType()">
+          <option value="">Select food type...</option>
+          <option value="lechon">Lechon</option>
+          <option value="pizza">Pizza</option>
+          <option value="pasta">Pasta</option>
+          <option value="grilled">Grilled</option>
+          <option value="steak">Steak</option>
+        </select>
       </div>
       <div class="card-body ">
         <div class="list-group" style="overflow-y: auto;max-height: 500px;">
-          <div ng-repeat="detail in map.restaurantDetail | filter: map.searchText" ng-click="map.postCount(detail)">
+          <div ng-repeat="detail in map.restaurantDetail | filter: {'name': map.searchText}" ng-mouseover="map.placeInfo(detail)" ng-click="map.postCount(detail)" data-toggle="modal" data-target="#exampleModalCenter">
             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1" ng-bind="detail.name"></h5>
@@ -22,12 +30,18 @@
               <div class="row">
                 <p class="col-md-6" ng-bind="detail.cuisine"></p>
                 <div class="image col-md-6" style="height: 100px;width: 100px;">
-                  <img src="{{detail.img}}">
+                  <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference={{detail.photos[0].photo_reference}}&key={{detail.key}}">
                 </div>
               </div>
             </a>
           </div>
         </div>
+      </div>
+      <div class="card-footer" style="margin-left: 25%;">
+        <ul class="pagination" ng-if="map.pageToken.nextpage!=''">
+          <li class="page-item" ng-if="map.pageToken.pageCount>0" ng-click="map.prevPage()"><a class="page-link btn btn-info" href="#">Previous</a></li>
+          <li class="page-item" ng-if="map.pageToken.nextpage!=''" ng-click="map.nextPage()"><a class="page-link btn btn-info" href="#">Next</a></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -36,9 +50,56 @@
       <div class="card-header ">
         Google Maps
       </div>
-      <div class="card-body ">
-        <div id="map" class="map"></div>
+      <div class="card-body">
+        <div id="map" class="map" style="height: 600px;"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document" style="max-width:1000px">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Restaurant Info</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-7">
+              <div id="map2" class="map" style="height: 600px;"></div>
+            </div>
+            <div class="col-md-5">
+              <div class="card">
+                <div class="card-header font-weight-bold" ng-bind="map.restoInfo.name">
+                </div>
+                <div class="card-body">
+                  <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference={{map.restoInfo.photos[0].photo_reference}}&key={{map.restoInfo.key}}" style="height: 200px;width: 300px;">
+                  <strong>Vicinity:</strong>
+                  <p ng-bind="map.restoInfo.vicinity"></p>
+                  <strong>Open Now:</strong>
+                  <div ng-if="map.restoInfo.opening_hours.open_now" class="text-success">YES</div>
+                  <div ng-if="!map.restoInfo.opening_hours.open_now" class="text-danger">NO</div>
+                  <strong>Phone Number:</strong>
+                  <div ng-bind="map.restoInfo.phone"></div>
+                  <strong>Popular Times:</strong>
+                  <div class="chart-area">
+                    <canvas id="chartPopularTimes"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-info" ng-click="map.calcRoute()">Get Direction</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+
+
