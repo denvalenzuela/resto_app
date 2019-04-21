@@ -28,6 +28,8 @@ $ virtualenv env -p <python executable for python3.6>
 export BIND_IP=127.0.0.1
 export BIND_PORT=5000
 export DEBUG=True
+export GOOGLE_API_KEY=API_KEY
+export GOOGLE_MAP_API=https://maps.googleapis.com/maps
 ```
 - Activate the virtualenv
 ```
@@ -40,6 +42,7 @@ $ source env/bin/activate
 - Install Python Packages
 ```
 (env)$ pip install -r requirements.txt
+pip install --upgrade git+https://github.com/m-wrzr/populartimes
 ```
 
 ### Running your local server
